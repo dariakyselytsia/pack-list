@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import type { ListId, PackList } from '../data/types';
-import type { ListActions } from '../hooks/useLists';
+import type { ListId, PackList } from '../../data/types';
+import type { ListActions } from '../../hooks/useLists';
 import { Bow, PencilIcon } from './Icons';
 import { anchorId, countDone, pct, SectionCard } from './SectionCard';
 import styles from './ListPanel.module.css';

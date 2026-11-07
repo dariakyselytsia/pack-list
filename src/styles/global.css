@@ -1,64 +1,4 @@
-:root {
-  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
-  --font-body: 'Nunito', system-ui, sans-serif;
-  --page-ink: #3d2a3a;
-  --page-muted: #6e5468;
-  --page-line: rgba(110, 84, 104, 0.2);
-  --both: #6b5a8a;
-  --page-bg: #f6f1f6;
-  color-scheme: light;
-}
-
-/* List themes — values from themes() in design/checklist-design.html */
-[data-theme='her'] {
-  --bg: #f7e6ec;
-  --panel: #efcdd8;
-  --accent: #c46a85;
-  --ink: #4a2433;
-  --muted: #7a4a5a;
-  --line: rgba(196, 106, 133, 0.28);
-  --shadow: rgba(180, 86, 111, 0.1);
-  --track: #f3d3dd;
-  --box: #d79aae;
-  --done-ink: #85606f;
-  --bow: #e7a3b8;
-  --bow-fill: #fbdbe5;
-  --knot: #f4bfd0;
-}
-
-[data-theme='his'] {
-  --bg: #e7eef8;
-  --panel: #cddcf0;
-  --accent: #4f7fb8;
-  --ink: #1f3350;
-  --muted: #4a5f7a;
-  --line: rgba(79, 127, 184, 0.28);
-  --shadow: rgba(79, 127, 184, 0.12);
-  --track: #d3e0f2;
-  --box: #93b0d6;
-  --done-ink: #5d7088;
-  --bow: #9dbbe3;
-  --bow-fill: #dbe7f7;
-  --knot: #bcd2ee;
-}
-
-/* Neutral theme for the shared header / status cards in "both" mode */
-[data-theme='both'] {
-  --bg: #f6f1f6;
-  --panel: #e9dfee;
-  --accent: #6b5a8a;
-  --ink: #3d2a3a;
-  --muted: #6e5468;
-  --line: rgba(110, 84, 104, 0.2);
-  --shadow: rgba(107, 90, 138, 0.1);
-  --track: #e6dcec;
-  --box: #b3a5c8;
-  --done-ink: #7a6a80;
-  --bow: #c9b3dc;
-  --bow-fill: #efe6f6;
-  --knot: #dccbea;
-}
-
+/* Shared base. Each design scopes its own tokens under .classic / .retro */
 *,
 *::before,
 *::after {
@@ -66,36 +6,13 @@
 }
 
 html {
-  scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    transition-duration: 0.01ms !important;
-  }
 }
 
 body {
   margin: 0;
-  background: var(--page-bg);
-  color: var(--page-ink);
-  font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: transparent;
-}
-
-a {
-  color: #8a3f5a;
-}
-a:hover {
-  color: #5c2238;
 }
 
 button,
@@ -107,21 +24,12 @@ button {
   touch-action: manipulation;
 }
 
-button:focus-visible,
-a:focus-visible,
-input:focus-visible {
-  outline: 2px solid #6b5a8a;
-  outline-offset: 2px;
-}
-
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  white-space: nowrap;
-  border: 0;
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

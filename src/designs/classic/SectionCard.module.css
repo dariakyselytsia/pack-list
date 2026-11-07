@@ -32,6 +32,35 @@
   color: var(--ink);
 }
 
+.titleRow:has(.titleEdit) {
+  align-items: center;
+}
+
+.title:has(.titleEdit) {
+  flex: 1;
+  min-width: 0;
+}
+
+.titleEdit {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.titleInput {
+  flex: 1;
+  min-width: 0;
+  min-height: 44px;
+  padding: 0 10px;
+  border-radius: 10px;
+  border: 1px solid var(--box);
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 16px;
+}
+
 .count {
   flex: none;
   font-family: var(--font-mono);

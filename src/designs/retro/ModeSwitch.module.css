@@ -1,0 +1,47 @@
+.group {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  min-height: 44px;
+  padding: 0 20px;
+  border-radius: 999px;
+  border: 1px solid #7d6f76;
+  background: linear-gradient(180deg, #ffffff 0%, #d9ced3 100%);
+  color: #2b2228;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: inset 0 1px 0 #ffffff, 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+.btn[aria-pressed='true'] {
+  color: #ffffff;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+.btn[aria-pressed='true'][data-mode='her'] {
+  background: linear-gradient(180deg, #c47790 0%, #a24d68 100%);
+}
+.btn[aria-pressed='true'][data-mode='his'] {
+  background: linear-gradient(180deg, #6a93c4 0%, #3a679c 100%);
+}
+.btn[aria-pressed='true'][data-mode='both'] {
+  background: linear-gradient(180deg, #8d7a9e 0%, #62507a 100%);
+}
+
+@media (max-width: 560px) {
+  .group {
+    width: 100%;
+    gap: 6px;
+  }
+  .btn {
+    flex: 1 1 auto;
+    padding: 0 12px;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+  }
+}

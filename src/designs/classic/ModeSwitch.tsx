@@ -1,5 +1,5 @@
-import type { Mode } from '../data/types';
-import { LIST_NAMES } from '../data/seed';
+import type { Mode } from '../../data/types';
+import { LIST_NAMES } from '../../data/seed';
 import styles from './ModeSwitch.module.css';
 
 const OPTIONS: { id: Mode; label: string }[] = [

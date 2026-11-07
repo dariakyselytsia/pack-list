@@ -1,0 +1,122 @@
+.window {
+  align-self: center;
+  width: min(100%, 480px);
+  margin: 24px auto;
+}
+
+.lcd {
+  margin: 0 4px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--screen);
+  border: 2px solid var(--edge);
+  box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.lcdTop {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.play {
+  font-size: 12px;
+  color: var(--lcd);
+}
+
+.big {
+  font-family: var(--font-lcd);
+  font-size: 52px;
+  line-height: 0.9;
+  color: var(--lcd);
+  text-shadow: 0 0 8px var(--glow);
+}
+
+.bars {
+  margin-left: auto;
+  height: 48px;
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  padding: 0 6px;
+  border-left: 1px dotted var(--lcd-dim);
+}
+.bars > span {
+  width: 9px;
+  height: 46px;
+  background: repeating-linear-gradient(0deg, var(--lcd) 0 3px, transparent 3px 5px);
+  transform-origin: bottom;
+  animation: eq 0.9s ease-in-out infinite alternate;
+}
+.bars[data-tone='error'] > span {
+  animation: none;
+  transform: scaleY(0.1);
+}
+
+@keyframes eq {
+  from {
+    transform: scaleY(0.1);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+.ticker {
+  overflow: hidden;
+  border-top: 1px solid #3a3237;
+  padding-top: 6px;
+  font-family: var(--font-pixel);
+  font-size: 15px;
+  letter-spacing: 1px;
+  color: var(--lcd-dim);
+}
+
+.mq {
+  display: inline-flex;
+  white-space: nowrap;
+  animation: mq 14s linear infinite;
+}
+.mq > span {
+  padding-right: 48px;
+}
+
+@keyframes mq {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.text {
+  margin: 4px 10px;
+  font-size: 15px;
+  line-height: 1.45;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  padding: 0 0 6px;
+}
+
+.btn {
+  min-height: 44px;
+  padding: 0 20px;
+  border-radius: 999px;
+  border: 1px solid var(--edge);
+  background: linear-gradient(180deg, var(--accent-top) 0%, var(--accent) 100%);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 2px 3px rgba(0, 0, 0, 0.3);
+}

@@ -38,6 +38,30 @@
   gap: 20px;
 }
 
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.designBtn {
+  min-height: 44px;
+  padding: 0 16px;
+  border-radius: 999px;
+  border: 1px dashed var(--page-line);
+  background: rgba(255, 255, 255, 0.45);
+  color: var(--page-muted);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  cursor: pointer;
+}
+.designBtn:hover {
+  background: rgba(255, 255, 255, 0.8);
+  color: var(--page-ink);
+}
+
 .titleBlock {
   display: flex;
   flex-direction: column;

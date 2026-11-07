@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
-import type { Item } from '../data/types';
-import { useDebouncedCallback } from '../hooks/useDebouncedCallback';
+import { useState, type KeyboardEvent } from 'react';
+import type { Item } from '../../data/types';
+import { DebouncedInput } from '../../components/DebouncedInput';
 import { CheckIcon, PlusIcon, TrashIcon } from './Icons';
 import styles from './Items.module.css';
 
@@ -22,8 +22,6 @@ export function ItemRow({ item, onToggle }: { item: Item; onToggle: () => void }
   );
 }
 
-const SAVE_DELAY = 400;
-
 export function ItemEditRow({
   item,
   onSave,
@@ -33,38 +31,14 @@ export function ItemEditRow({
   onSave: (text: string) => void;
   onRemove: () => void;
 }) {
-  const [value, setValue] = useState(item.text);
-  const focused = useRef(false);
-  const save = useDebouncedCallback(onSave, SAVE_DELAY);
-
-  // Pick up remote changes, but never overwrite what is being typed.
-  useEffect(() => {
-    if (!focused.current) setValue(item.text);
-  }, [item.text]);
-
   return (
     <div className={styles.editRow} data-sub={item.sub || undefined}>
-      <input
+      <DebouncedInput
         className={styles.input}
-        value={value}
+        value={item.text}
+        onSave={onSave}
         aria-label="Назва пункту"
         enterKeyHint="done"
-        onFocus={() => {
-          focused.current = true;
-        }}
-        onChange={(e) => {
-          setValue(e.target.value);
-          // Empty text is not saved; on blur the field reverts to the stored text.
-          if (e.target.value.trim()) save.call(e.target.value);
-        }}
-        onBlur={() => {
-          focused.current = false;
-          save.flush();
-          if (!value.trim()) setValue(item.text);
-        }}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') e.currentTarget.blur();
-        }}
       />
       <button type="button" className={styles.iconBtn} aria-label={`Видалити «${item.text}»`} onClick={onRemove}>
         <TrashIcon />

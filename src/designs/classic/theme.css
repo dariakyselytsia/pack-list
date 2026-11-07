@@ -1,0 +1,79 @@
+/* Classic design — tokens from themes() in design/checklist-design.html */
+.classic {
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+  --font-body: 'Nunito', system-ui, sans-serif;
+  --page-ink: #3d2a3a;
+  --page-muted: #6e5468;
+  --page-line: rgba(110, 84, 104, 0.2);
+  --both: #6b5a8a;
+  --page-bg: #f6f1f6;
+  font-family: var(--font-body);
+  color: var(--page-ink);
+}
+
+.classic [data-theme='her'] {
+  --bg: #f7e6ec;
+  --panel: #efcdd8;
+  --accent: #c46a85;
+  --ink: #4a2433;
+  --muted: #7a4a5a;
+  --line: rgba(196, 106, 133, 0.28);
+  --shadow: rgba(180, 86, 111, 0.1);
+  --track: #f3d3dd;
+  --box: #d79aae;
+  --done-ink: #85606f;
+  --bow: #e7a3b8;
+  --bow-fill: #fbdbe5;
+  --knot: #f4bfd0;
+}
+
+.classic [data-theme='his'] {
+  --bg: #e7eef8;
+  --panel: #cddcf0;
+  --accent: #4f7fb8;
+  --ink: #1f3350;
+  --muted: #4a5f7a;
+  --line: rgba(79, 127, 184, 0.28);
+  --shadow: rgba(79, 127, 184, 0.12);
+  --track: #d3e0f2;
+  --box: #93b0d6;
+  --done-ink: #5d7088;
+  --bow: #9dbbe3;
+  --bow-fill: #dbe7f7;
+  --knot: #bcd2ee;
+}
+
+/* Neutral theme for status cards in "both" mode */
+.classic [data-theme='both'] {
+  --bg: #f6f1f6;
+  --panel: #e9dfee;
+  --accent: #6b5a8a;
+  --ink: #3d2a3a;
+  --muted: #6e5468;
+  --line: rgba(110, 84, 104, 0.2);
+  --shadow: rgba(107, 90, 138, 0.1);
+  --track: #e6dcec;
+  --box: #b3a5c8;
+  --done-ink: #7a6a80;
+  --bow: #c9b3dc;
+  --bow-fill: #efe6f6;
+  --knot: #dccbea;
+}
+
+.classic a {
+  color: #8a3f5a;
+}
+.classic a:hover {
+  color: #5c2238;
+}
+
+.classic button:focus-visible,
+.classic a:focus-visible,
+.classic input:focus-visible {
+  outline: 2px solid #6b5a8a;
+  outline-offset: 2px;
+}
+
+html:has(.classic) {
+  scroll-behavior: smooth;
+}

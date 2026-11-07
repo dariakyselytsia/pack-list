@@ -2,7 +2,12 @@
 
 Спільний чек-лист для переїзду на двох: «мій список ♡» і «його список ✧», realtime-синхронізація через Firestore, працює офлайн.
 
-Дизайн-референс: [design/checklist-design.html](design/checklist-design.html).
+## Дизайни
+Два дизайни з перемикачем у шапці (вибір зберігається в localStorage):
+- **ретро** (за замовчуванням) — [design/new design.html](design/new%20design.html), код у [src/designs/retro/](src/designs/retro/);
+- **класика** — [design/checklist-design.html](design/checklist-design.html), код у [src/designs/classic/](src/designs/classic/) (вантажиться ліниво).
+
+Дані, режими й логіка спільні: [src/hooks/useLists.ts](src/hooks/useLists.ts), [src/data/](src/data/). Теми кожного дизайну — CSS-змінні, обмежені класом `.retro` / `.classic`.
 
 ## Стек
 Vite + React + TypeScript, CSS modules з CSS-змінними для тем, Firebase Cloud Firestore (модульний SDK, `persistentLocalCache`).
@@ -16,8 +21,8 @@ npm run build
 ```
 
 ## Дані
-`households/main/lists/{her|his}`: `{ name, theme, sections: [{ id, sym, title, note, items: [{ id, text, sub, done }] }], updatedAt }`.
-Якщо документів немає, застосунок засіває їх початковими даними (в транзакції).
+`households/main/lists/{her|his}`: `{ name, theme, sections: [{ id, sym, short, title, note, items: [{ id, text, sub, done }] }], updatedAt }`.
+Якщо документів немає, застосунок засіває їх початковими даними (в транзакції). Розділам без `short` (засіяним першою версією) мітка додається автоматично.
 
 ## Правила Firestore
 Застосунок без входу: правила ([firestore.rules](firestore.rules)) відкривають читання й запис лише двох документів списків, решту бази заборонено.

@@ -1,0 +1,76 @@
+/* Retro player design — tokens from themes() in "design/new design.html" */
+.retro {
+  --font-body: 'PT Sans', Tahoma, Verdana, sans-serif;
+  --font-pixel: 'Pixelify Sans', monospace;
+  --font-lcd: 'VT323', monospace;
+  --page-ink: #2b2228;
+  --page-muted: #4d3f47;
+  --screen: #1f1a1d;
+  font-family: var(--font-body);
+  color: var(--page-ink);
+}
+
+.retro [data-theme='her'] {
+  --c1: #f4e9ec;
+  --c2: #dcc6cd;
+  --c3: #bfa2ac;
+  --edge: #8a6b76;
+  --ink: #3e2430;
+  --accent: #a24d68;
+  --accent-top: #c47790;
+  --lcd: #f6bdcd;
+  --lcd-dim: #d99aad;
+  --glow: rgba(246, 189, 205, 0.6);
+  --list-bg: #5e5559;
+  --row-done: #6c5f65;
+  --done-ink: #ded5d9;
+  --led: #ff5d86;
+}
+
+.retro [data-theme='his'] {
+  --c1: #e9eff6;
+  --c2: #c8d5e3;
+  --c3: #9fb2c8;
+  --edge: #667c95;
+  --ink: #1c2a3c;
+  --accent: #3a679c;
+  --accent-top: #6a93c4;
+  --lcd: #acd3ff;
+  --lcd-dim: #86b0dd;
+  --glow: rgba(172, 211, 255, 0.6);
+  --list-bg: #545b64;
+  --row-done: #5f6873;
+  --done-ink: #d6dde5;
+  --led: #4fb4ff;
+}
+
+/* Neutral window palette: header window and status windows */
+.retro [data-theme='both'] {
+  --c1: #f4eef1;
+  --c2: #d9ced3;
+  --c3: #c9bcc2;
+  --edge: #8f8289;
+  --ink: #2b2228;
+  --accent: #62507a;
+  --accent-top: #8d7a9e;
+  --lcd: #f6bdcd;
+  --lcd-dim: #d99aad;
+  --glow: rgba(246, 189, 205, 0.6);
+  --list-bg: #5e5559;
+  --row-done: #6c5f65;
+  --done-ink: #ded5d9;
+  --led: #e0607f;
+}
+
+.retro a {
+  color: #7a3550;
+}
+.retro a:hover {
+  color: #4a1f30;
+}
+
+.retro button:focus-visible,
+.retro input:focus-visible {
+  outline: 2px solid #2b2228;
+  outline-offset: 2px;
+}

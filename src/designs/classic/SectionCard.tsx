@@ -1,5 +1,6 @@
-import type { ListId, Section } from '../data/types';
-import type { ListActions } from '../hooks/useLists';
+import type { ListId, Section } from '../../data/types';
+import type { ListActions } from '../../hooks/useLists';
+import { DebouncedInput } from '../../components/DebouncedInput';
 import { AddItemRow, ItemEditRow, ItemRow } from './Items';
 import styles from './SectionCard.module.css';
 
@@ -26,7 +27,22 @@ export function SectionCard({ listId, section: s, editing, actions }: Props) {
       <div className={styles.head}>
         <div className={styles.titleRow}>
           <h3 id={`${anchorId(listId, s.id)}-h`} className={styles.title}>
-            {s.sym} {s.title}
+            {editing ? (
+              <span className={styles.titleEdit}>
+                <span aria-hidden="true">{s.sym}</span>
+                <DebouncedInput
+                  className={styles.titleInput}
+                  value={s.title}
+                  onSave={(t) => actions.setSectionTitle(listId, s.id, t)}
+                  aria-label="Назва розділу"
+                  enterKeyHint="done"
+                />
+              </span>
+            ) : (
+              <>
+                {s.sym} {s.title}
+              </>
+            )}
           </h3>
           <span className={styles.count}>
             {done}/{total}

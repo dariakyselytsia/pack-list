@@ -1,0 +1,92 @@
+.window {
+  min-width: 0;
+  border-radius: 18px;
+  padding: 8px;
+  background: linear-gradient(180deg, var(--c1) 0%, var(--c2) 100%);
+  border: 1px solid var(--edge);
+  box-shadow: 0 14px 34px rgba(43, 34, 40, 0.2), inset 0 1px 0 #ffffff;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: var(--ink);
+}
+
+.bar {
+  height: 30px;
+  border-radius: 10px;
+  background: linear-gradient(180deg, var(--c3) 0%, var(--c2) 100%);
+  border: 1px solid var(--edge);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 8px;
+}
+
+.box {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+  border: 1px solid var(--edge);
+  background: linear-gradient(180deg, #ffffff 0%, var(--c2) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  line-height: 1;
+  color: var(--ink);
+}
+
+.stripes {
+  flex: 1;
+  min-width: 8px;
+  height: 8px;
+  background: repeating-linear-gradient(180deg, var(--edge) 0 1px, var(--c1) 1px 3px);
+}
+
+.title {
+  margin: 0;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  color: var(--ink);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.controls {
+  flex: none;
+  display: flex;
+  gap: 3px;
+}
+
+.min {
+  align-items: flex-end;
+  padding-bottom: 3px;
+}
+.min > span {
+  width: 8px;
+  height: 2px;
+  background: var(--ink);
+}
+
+.max > span {
+  width: 7px;
+  height: 6px;
+  border: 1.5px solid var(--ink);
+  border-top-width: 2.5px;
+}
+
+.close {
+  font-size: 11px;
+  font-weight: 700;
+}
+
+@media (max-width: 420px) {
+  .title {
+    letter-spacing: 2.5px;
+  }
+}

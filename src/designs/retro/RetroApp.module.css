@@ -1,0 +1,185 @@
+.page {
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: 32px 16px 64px;
+  padding-left: max(16px, env(safe-area-inset-left));
+  padding-right: max(16px, env(safe-area-inset-right));
+  transition: background-color 0.3s ease;
+}
+.page[data-mode='her'] {
+  background: #e9dde2;
+}
+.page[data-mode='his'] {
+  background: #dbe3ec;
+}
+.page[data-mode='both'] {
+  background: #e3dee4;
+}
+
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.page[data-mode='both'] .container {
+  max-width: 1440px;
+}
+
+.headerRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 14px 10px 8px;
+}
+
+.brand {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.led {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #ffd9e4 0%, #e0607f 60%, #8c2a44 100%);
+  box-shadow: 0 0 6px #e0607f;
+}
+
+.brandText {
+  font-family: var(--font-pixel);
+  font-size: 15px;
+  color: #4d3f47;
+}
+
+/* "ВІЗ ▾"-style pill that switches to the classic design.
+   The button is a 44px tap target; the visible pill sits inside. */
+.designBtn {
+  min-height: 44px;
+  padding: 0 4px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.designPill {
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid #8f8289;
+  background: linear-gradient(180deg, #ffffff 0%, #d9ced3 100%);
+  box-shadow: inset 0 1px 0 #ffffff, 0 1px 2px rgba(0, 0, 0, 0.2);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #2b2228;
+}
+.designBtn:hover .designPill {
+  background: #ffffff;
+}
+
+.panels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.footer {
+  margin: 0;
+  text-align: center;
+  font-family: var(--font-pixel);
+  font-size: 14px;
+  color: #4d3f47;
+}
+
+.syncRow {
+  display: flex;
+  justify-content: center;
+  margin: -10px 0 -8px;
+}
+
+.syncChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--edge);
+  background: var(--screen);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+  font-family: var(--font-pixel);
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  color: var(--lcd);
+  text-align: center;
+}
+
+.syncLed {
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--led);
+  box-shadow: 0 0 6px var(--led);
+  animation: blink 1.2s steps(2, start) infinite;
+}
+.syncLed[data-kind='pending'] {
+  animation-duration: 0.6s;
+}
+
+@keyframes blink {
+  to {
+    opacity: 0.25;
+  }
+}
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: max(16px, env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  z-index: 10;
+  width: min(calc(100% - 32px), 460px);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 6px 6px 16px;
+  border-radius: 14px;
+  border: 1px solid var(--edge);
+  background: linear-gradient(180deg, var(--c1) 0%, var(--c2) 100%);
+  box-shadow: 0 12px 30px rgba(43, 34, 40, 0.25), inset 0 1px 0 #ffffff;
+  font-size: 14px;
+  color: var(--ink);
+}
+.toast > span {
+  flex: 1;
+}
+
+.toastClose {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--edge);
+  background: linear-gradient(180deg, #ffffff 0%, var(--c2) 100%);
+  color: var(--ink);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+@media (max-width: 560px) {
+  .page {
+    padding-top: 20px;
+    padding-bottom: 48px;
+  }
+  .headerRow {
+    padding: 10px 6px 6px;
+  }
+}
