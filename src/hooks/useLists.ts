@@ -7,8 +7,8 @@ import {
   updateDoc,
   type DocumentReference,
 } from 'firebase/firestore';
-import { db } from '../firebase';
-import { buildSections, LIST_NAMES } from '../data/seed';
+import { db, missingConfig } from '../firebase';
+import { buildSections, LIST_NAMES, migrateSections } from '../data/seed';
 import { LIST_IDS, type Item, type ListId, type PackList, type Section } from '../data/types';
 import { uid } from '../data/uid';
 
@@ -109,6 +109,29 @@ export function useLists() {
     );
   }, []);
 
+  // Lists seeded by the first design lack `short` labels → migrate once,
+  // only from server data so we don't act on a stale cache.
+  const migrated = useRef<Partial<Record<ListId, boolean>>>({});
+  useEffect(() => {
+    LIST_IDS.forEach((id) => {
+      const d = docs[id];
+      if (!d?.data || d.fromCache || migrated.current[id]) return;
+      migrated.current[id] = true;
+      mutate(id, migrateSections);
+    });
+  }, [docs, mutate]);
+
+  const patchSection = useCallback(
+    (id: ListId, secId: string, fn: (s: Section) => Section) =>
+      mutate(id, (secs) => {
+        const i = secs.findIndex((s) => s.id === secId);
+        if (i < 0) return secs;
+        const next = fn(secs[i]);
+        return next === secs[i] ? secs : secs.map((s, j) => (j === i ? next : s));
+      }),
+    [mutate],
+  );
+
   const patchItems = useCallback(
     (id: ListId, secId: string, fn: (items: Item[]) => Item[]) =>
       mutate(id, (secs) => {
@@ -149,6 +172,30 @@ export function useLists() {
       return true;
     },
 
+    setSectionTitle: (id: ListId, secId: string, title: string) => {
+      const t = title.trim();
+      if (!t) return;
+      patchSection(id, secId, (s) => (s.title === t ? s : { ...s, title: t }));
+    },
+
+    setSectionShort: (id: ListId, secId: string, short: string) => {
+      const t = short.trim().toUpperCase();
+      if (!t) return;
+      patchSection(id, secId, (s) => (s.short === t ? s : { ...s, short: t }));
+    },
+
+    /** Mark the first unchecked item among the given sections (in order). */
+    collectNext: (id: ListId, secIds: string[]) => {
+      const secs = latest.current[id]?.sections ?? [];
+      for (const secId of secIds) {
+        const item = secs.find((s) => s.id === secId)?.items.find((x) => !x.done);
+        if (item) {
+          patchItems(id, secId, (xs) => xs.map((x) => (x.id === item.id ? { ...x, done: true } : x)));
+          return;
+        }
+      }
+    },
+
     reset: (id: ListId) =>
       mutate(id, (secs) =>
         secs.some((s) => s.items.some((x) => x.done))
@@ -158,7 +205,9 @@ export function useLists() {
   };
 
   let state: ListsState;
-  if (error) {
+  if (!db) {
+    state = { status: 'error', message: `немає конфігу Firebase у .env: ${missingConfig.join(', ')}` };
+  } else if (error) {
     state = { status: 'error', message: error };
   } else if (LIST_IDS.every((id) => docs[id]?.data)) {
     state = {

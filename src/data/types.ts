@@ -13,6 +13,8 @@ export interface Item {
 export interface Section {
   id: string;
   sym: string;
+  /** Short label under the equalizer slider, e.g. "ДОК" */
+  short: string;
   title: string;
   note: string;
   items: Item[];
