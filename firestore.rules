@@ -1,0 +1,30 @@
+rules_version = '2';
+
+// Public by design: the app has no sign-in. Only the two list documents
+// households/main/lists/{her|his} are reachable; everything else is denied.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isListId(id) {
+      return id in ['her', 'his'];
+    }
+
+    function isValidList(d) {
+      return d.keys().hasOnly(['name', 'theme', 'sections', 'updatedAt'])
+        && d.name is string && d.name.size() <= 80
+        && d.theme in ['her', 'his']
+        && d.sections is list && d.sections.size() <= 60
+        && d.updatedAt is timestamp;
+    }
+
+    match /households/main/lists/{listId} {
+      allow get: if isListId(listId);
+      allow create, update: if isListId(listId) && isValidList(request.resource.data);
+      allow delete: if false;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
