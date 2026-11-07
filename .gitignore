@@ -1,0 +1,21 @@
+node_modules/
+dist/
+*.local
+*.log
+
+# env
+.env
+.env.*
+!.env.example
+
+# firebase
+.firebase/
+firebase-debug*.log
+firestore-debug.log
+
+# editors / os
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
