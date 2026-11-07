@@ -1,0 +1,53 @@
+.grid {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image: linear-gradient(rgba(141, 255, 90, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(141, 255, 90, 0.05) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.rain {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: space-between;
+  overflow: hidden;
+  opacity: 0.22;
+  pointer-events: none;
+}
+
+.col {
+  width: 18px;
+  overflow: hidden;
+}
+
+.stream {
+  white-space: pre-line;
+  font-family: var(--font-mono);
+  font-size: 15px;
+  line-height: 18px;
+  color: #6cff3a;
+  text-align: center;
+  text-shadow: 0 0 6px rgba(108, 255, 58, 0.8);
+  will-change: transform;
+  animation-name: rain;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes rain {
+  from {
+    transform: translateY(-50%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* phones: fewer columns fit, keep it light */
+@media (max-width: 560px) {
+  .col:nth-child(2n) {
+    display: none;
+  }
+}

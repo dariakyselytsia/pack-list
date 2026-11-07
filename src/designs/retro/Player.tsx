@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import type { ListId, PackList, Section } from '../../data/types';
 import { deriveShort } from '../../data/seed';
 import type { ListActions } from '../../hooks/useLists';
+import { plural, upper } from '../../data/text';
 import { usePanelState } from '../../hooks/usePanelState';
 import { DebouncedInput } from '../../components/DebouncedInput';
 import { Window } from './Window';
@@ -15,16 +16,8 @@ interface Props {
   actions: ListActions;
 }
 
-const upper = (s: string) => s.toLocaleUpperCase('uk');
 const doneOf = (s: Section) => s.items.reduce((n, x) => n + (x.done ? 1 : 0), 0);
 
-function plural(n: number, one: string, few: string, many: string) {
-  const d = n % 10;
-  const dd = n % 100;
-  if (d === 1 && dd !== 11) return one;
-  if (d >= 2 && d <= 4 && (dd < 12 || dd > 14)) return few;
-  return many;
-}
 
 /** One list as a retro media-player window. */
 export function Player({ listId, list, actions }: Props) {

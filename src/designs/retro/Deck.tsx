@@ -1,12 +1,12 @@
 import { useState, type KeyboardEvent } from 'react';
 import type { Item, ListId, Section } from '../../data/types';
 import type { ListActions } from '../../hooks/useLists';
+import { upper } from '../../data/text';
 import { DebouncedInput } from '../../components/DebouncedInput';
 import { CheckIcon, PlusIcon, TrashIcon } from './Icons';
 import styles from './Deck.module.css';
 
 const num = (i: number) => `${String(i + 1).padStart(2, '0')}.`;
-const upper = (s: string) => s.toLocaleUpperCase('uk');
 
 interface Props {
   listId: ListId;

@@ -3,11 +3,12 @@
 Спільний чек-лист для переїзду на двох: «мій список ♡» і «його список ✧», realtime-синхронізація через Firestore, працює офлайн.
 
 ## Дизайни
-Два дизайни з перемикачем у шапці (вибір зберігається в localStorage):
+Три дизайни з перемикачем у шапці (вибір зберігається в localStorage):
 - **ретро** (за замовчуванням) — [design/new design.html](design/new%20design.html), код у [src/designs/retro/](src/designs/retro/);
-- **класика** — [design/checklist-design.html](design/checklist-design.html), код у [src/designs/classic/](src/designs/classic/) (вантажиться ліниво).
+- **класика** — [design/checklist-design.html](design/checklist-design.html), код у [src/designs/classic/](src/designs/classic/);
+- **матриця** — [design/matrix design.html](design/matrix%20design.html) (друга сторінка дошки), код у [src/designs/matrix/](src/designs/matrix/).
 
-Дані, режими й логіка спільні: [src/hooks/useLists.ts](src/hooks/useLists.ts), [src/data/](src/data/). Теми кожного дизайну — CSS-змінні, обмежені класом `.retro` / `.classic`.
+Класика й матриця вантажаться ліниво. Дані, режими й логіка спільні: [src/hooks/useLists.ts](src/hooks/useLists.ts), [src/data/](src/data/). Теми кожного дизайну — CSS-змінні, обмежені класом `.retro` / `.classic` / `.matrix`.
 
 ## Стек
 Vite + React + TypeScript, CSS modules з CSS-змінними для тем, Firebase Cloud Firestore (модульний SDK, `persistentLocalCache`).

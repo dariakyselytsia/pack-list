@@ -1,0 +1,49 @@
+/* Matrix design — tokens from themes() in "design/matrix design.html" */
+.matrix {
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --font-pixel: 'Pixelify Sans', monospace;
+  --font-display: 'Unbounded', sans-serif;
+  --bg: #030703;
+  --green: #8dff5a;
+  --green-dim: #4fae35;
+  --green-glow: rgba(141, 255, 90, 0.6);
+  --cyan: #5cf2d6;
+  --pale: #e6ffe0;
+  font-family: var(--font-mono);
+  color: var(--green);
+}
+
+/* per-list colours; "both" uses the green of the shell */
+.matrix [data-theme='her'],
+.matrix [data-theme='both'] {
+  --c: #8dff5a;
+  --dim: #4fae35;
+  --glow: rgba(141, 255, 90, 0.6);
+  --soft: rgba(141, 255, 90, 0.07);
+  --line: rgba(141, 255, 90, 0.28);
+}
+
+.matrix [data-theme='his'] {
+  --c: #5cf2d6;
+  --dim: #33a893;
+  --glow: rgba(92, 242, 214, 0.6);
+  --soft: rgba(92, 242, 214, 0.07);
+  --line: rgba(92, 242, 214, 0.28);
+}
+
+.matrix a {
+  color: #8dff5a;
+}
+.matrix a:hover {
+  color: #c9ffb0;
+}
+
+.matrix button:focus-visible,
+.matrix input:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
+}
+
+.matrix input::placeholder {
+  color: #4fae35;
+}

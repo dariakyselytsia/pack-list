@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { LIST_IDS, type Mode } from '../../data/types';
-import type { DesignProps } from '../types';
+import { DESIGN_LABELS, DESIGNS, type DesignProps } from '../types';
+import { upper } from '../../data/text';
 import { Window } from './Window';
 import { ModeSwitch } from './ModeSwitch';
 import { Player } from './Player';
@@ -11,7 +12,7 @@ import styles from './RetroApp.module.css';
 const PAGE_BG: Record<Mode, string> = { her: '#e9dde2', his: '#dbe3ec', both: '#e3dee4' };
 
 export default function RetroApp(props: DesignProps) {
-  const { mode, setMode, switchDesign } = props;
+  const { mode, setMode, design, setDesign } = props;
 
   useEffect(() => {
     document.body.style.background = PAGE_BG[mode];
@@ -26,9 +27,19 @@ export default function RetroApp(props: DesignProps) {
             <div className={styles.brand}>
               <span aria-hidden="true" className={styles.led} />
               <span className={styles.brandText}>moving checklist ✧ v1.0</span>
-              <button type="button" className={styles.designBtn} onClick={switchDesign} title="Перемкнути на класичний дизайн">
-                <span className={styles.designPill}>⇄ КЛАСИКА</span>
-              </button>
+              <div role="group" aria-label="Дизайн" className={styles.designs}>
+                {DESIGNS.map((d) => (
+                  <button
+                    key={d}
+                    type="button"
+                    className={styles.designBtn}
+                    aria-pressed={design === d}
+                    onClick={() => setDesign(d)}
+                  >
+                    <span className={styles.designPill}>{upper(DESIGN_LABELS[d])}</span>
+                  </button>
+                ))}
+              </div>
             </div>
             <ModeSwitch mode={mode} onChange={setMode} />
           </div>

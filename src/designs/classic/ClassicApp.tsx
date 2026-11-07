@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { LIST_IDS, type Mode } from '../../data/types';
-import type { DesignProps } from '../types';
+import { DESIGN_LABELS, DESIGNS, type DesignProps } from '../types';
 import { ModeSwitch } from './ModeSwitch';
 import { ListPanel } from './ListPanel';
 import { StatusCard, Toast } from './StatusCard';
@@ -10,7 +10,7 @@ import styles from './App.module.css';
 const PAGE_BG: Record<Mode, string> = { her: '#f7e6ec', his: '#e7eef8', both: '#f6f1f6' };
 
 export default function ClassicApp(props: DesignProps) {
-  const { mode, setMode, switchDesign } = props;
+  const { mode, setMode, design, setDesign } = props;
 
   // Match the area outside the page (overscroll, browser chrome) to the mode.
   useEffect(() => {
@@ -28,9 +28,22 @@ export default function ClassicApp(props: DesignProps) {
           </div>
           <div className={styles.controls}>
             <ModeSwitch mode={mode} onChange={setMode} />
-            <button type="button" className={styles.designBtn} onClick={switchDesign}>
-              дизайн ⇄ ретро
-            </button>
+            <div role="group" aria-label="Дизайн" className={styles.designs}>
+              <span aria-hidden="true" className={styles.designsLabel}>
+                дизайн ✧
+              </span>
+              {DESIGNS.map((d) => (
+                <button
+                  key={d}
+                  type="button"
+                  className={styles.designBtn}
+                  aria-pressed={design === d}
+                  onClick={() => setDesign(d)}
+                >
+                  {DESIGN_LABELS[d]}
+                </button>
+              ))}
+            </div>
           </div>
         </header>
 

@@ -6,8 +6,9 @@ import { useStoredChoice } from './hooks/useStoredChoice';
 import { useDelayedFlag } from './hooks/useDelayedFlag';
 import RetroApp from './designs/retro/RetroApp';
 
-// The classic design is loaded only when someone switches to it.
+// Non-default designs are loaded only when someone switches to them.
 const ClassicApp = lazy(() => import('./designs/classic/ClassicApp'));
+const MatrixApp = lazy(() => import('./designs/matrix/MatrixApp'));
 
 const MODES: readonly Mode[] = ['her', 'his', 'both'];
 
@@ -21,7 +22,8 @@ export default function App() {
   const props: DesignProps = {
     mode,
     setMode,
-    switchDesign: () => setDesign(design === 'retro' ? 'classic' : 'retro'),
+    design,
+    setDesign,
     state,
     actions,
     sync: { offline, pending },
@@ -29,11 +31,6 @@ export default function App() {
     clearWriteError,
   };
 
-  return design === 'classic' ? (
-    <Suspense fallback={null}>
-      <ClassicApp {...props} />
-    </Suspense>
-  ) : (
-    <RetroApp {...props} />
-  );
+  if (design === 'retro') return <RetroApp {...props} />;
+  return <Suspense fallback={null}>{design === 'classic' ? <ClassicApp {...props} /> : <MatrixApp {...props} />}</Suspense>;
 }
