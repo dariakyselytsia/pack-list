@@ -47,66 +47,51 @@
   color: var(--dim);
 }
 
-.pctRow {
+/* "Пакування.. [▮▮▮▮    ] 12/93" */
+.packRow {
   display: flex;
-  align-items: flex-end;
-  gap: 14px;
-}
-
-.pct {
-  font-family: var(--font-display);
-  font-weight: 900;
-  font-size: 56px;
-  line-height: 0.9;
-  color: var(--c);
-  text-shadow: 0 0 16px var(--glow);
-}
-
-.pctLabel {
-  padding-bottom: 4px;
-  font-size: 13px;
-  line-height: 1.5;
-}
-
-.hearts {
-  display: flex;
-  gap: 4px;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-pixel);
   font-size: 18px;
-  color: var(--line);
-}
-.hearts > span[data-on] {
   color: var(--c);
   text-shadow: 0 0 6px var(--glow);
 }
 
+.packText {
+  flex: none;
+}
+
+.packTrack {
+  flex: 1;
+  min-width: 80px;
+  height: 18px;
+  padding: 2px;
+  border: 2px solid var(--c);
+  box-shadow: 0 0 8px var(--glow);
+}
+
+.packFill {
+  display: block;
+  height: 100%;
+  background: repeating-linear-gradient(90deg, var(--c) 0 7px, transparent 7px 10px);
+  filter: drop-shadow(0 0 4px var(--glow));
+  transition: width 0.4s steps(6);
+}
+
+.hearts {
+  font-size: 15px;
+  letter-spacing: 1px;
+  white-space: pre;
+  color: var(--dim);
+  overflow: hidden;
+}
+
 .ruler {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.scale {
-  position: relative;
-  height: 16px;
-  border-bottom: 1px solid var(--c);
-  background: repeating-linear-gradient(90deg, var(--c) 0 1px, transparent 1px 10%) bottom / 100% 8px no-repeat,
-    repeating-linear-gradient(90deg, var(--dim) 0 1px, transparent 1px 2%) bottom / 100% 4px no-repeat;
-}
-
-.marker {
-  position: absolute;
-  bottom: -1px;
-  width: 3px;
-  height: 16px;
-  background: #ffffff;
-  box-shadow: 0 0 8px #ffffff;
-  transition: left 0.3s ease;
-}
-
-.scaleNums {
-  display: flex;
-  justify-content: space-between;
-  font-size: 11px;
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 14px;
   color: var(--dim);
 }
 
@@ -138,22 +123,15 @@
   color: var(--dim);
 }
 
-.globe {
+.sphere {
   flex: none;
-  filter: drop-shadow(0 0 6px var(--glow));
-}
-
-.spin {
-  stroke: var(--c);
-  stroke-width: 1.2;
-  transform-origin: 60px 60px;
-  animation: spin 40s linear infinite;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 7px;
+  line-height: 7px;
+  font-weight: 800;
+  color: var(--c);
+  text-shadow: 0 0 6px var(--glow);
 }
 
 /* ---------- body ---------- */
@@ -180,8 +158,8 @@
 }
 
 .navTitle {
-  font-family: var(--font-pixel);
-  font-size: 20px;
+  font-size: 18px;
+  font-weight: 800;
   letter-spacing: 1px;
   text-shadow: 0 0 8px var(--glow);
 }
@@ -224,7 +202,7 @@
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
+  white-space: pre;
 }
 
 .tabCount {
@@ -338,9 +316,15 @@
   color: var(--dim);
 }
 
-.slashes {
+.box {
   flex: none;
   font-weight: 800;
+  white-space: pre;
+  color: var(--dim);
+}
+.row[data-done] .box {
+  color: #ffffff;
+  text-shadow: 0 0 8px var(--glow);
 }
 
 .text {
@@ -495,20 +479,24 @@
   cursor: default;
 }
 
-.ctlRing {
-  width: 52px;
+.ctlKey {
+  min-width: 64px;
   height: 44px;
-  border-radius: 50%;
-  border: 2px solid var(--c);
+  padding: 0 8px;
+  border: 1px solid var(--c);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-pixel);
-  font-size: 20px;
+  font-size: 18px;
+  font-weight: 800;
+  white-space: pre;
   box-shadow: 0 0 10px var(--glow), inset 0 0 10px var(--glow);
 }
-.ctl[aria-pressed='true'] .ctlRing,
-.ctl[aria-expanded='true'] .ctlRing {
+.ctl:hover:not(:disabled) .ctlKey {
+  background: var(--soft);
+}
+.ctl[aria-pressed='true'] .ctlKey,
+.ctl[aria-expanded='true'] .ctlKey {
   background: var(--c);
   color: var(--bg);
 }
@@ -521,32 +509,12 @@
 
 .deco {
   flex: 1 1 200px;
-  height: 40px;
-  display: flex;
-  gap: 6px;
-  align-items: stretch;
-  justify-content: center;
-}
-
-.decoGrid {
-  flex: 1;
-  max-width: 70px;
-  background: repeating-linear-gradient(90deg, var(--c) 0 1px, transparent 1px 8px),
-    repeating-linear-gradient(0deg, var(--c) 0 1px, transparent 1px 8px);
-  clip-path: polygon(0 20%, 100% 0, 100% 100%, 0 80%);
-  opacity: 0.8;
-}
-.decoGridR {
-  clip-path: polygon(0 0, 100% 20%, 100% 80%, 0 100%);
-}
-
-.decoBar {
-  width: 6px;
-  background: var(--c);
-  clip-path: polygon(0 0, 100% 15%, 100% 85%, 0 100%);
-}
-.decoBarR {
-  clip-path: polygon(0 15%, 100% 0, 100% 100%, 0 85%);
+  margin: 0;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 13px;
+  color: var(--dim);
 }
 
 .confirm {

@@ -4,6 +4,8 @@ import { plural, upper } from '../../data/text';
 import type { ListActions } from '../../hooks/useLists';
 import { usePanelState } from '../../hooks/usePanelState';
 import { DebouncedInput } from '../../components/DebouncedInput';
+import { AsciiSphere } from './AsciiSphere';
+import { hearts, ruler } from './ascii';
 import styles from './Terminal.module.css';
 
 interface Props {
@@ -33,7 +35,6 @@ export function Terminal({ listId, list, actions }: Props) {
   const allTotal = stats.reduce((a, s) => a + s.n, 0);
   const ratio = allTotal ? doneTotal / allTotal : 0;
   const pct = Math.round(ratio * 100);
-  const filled = Math.round(ratio * 10);
   const left = allTotal - doneTotal;
   const status = left === 0 ? 'УСЕ ЗІБРАНО ✓' : ratio >= 0.5 ? 'ПАКУВАННЯ: ПОНАД ПОЛОВИНУ' : 'ПАКУВАННЯ ТРИВАЄ…';
 
@@ -55,31 +56,23 @@ export function Terminal({ listId, list, actions }: Props) {
             <h2 className={styles.name}>{upper(list.name.replace(/\s*[♡✧]\s*$/, ''))}</h2>
             <span className={styles.user}>/// {listId === 'her' ? 'USER_01' : 'USER_02'}</span>
           </div>
-          <div className={styles.pctRow}>
-            <span className={styles.pct}>{pct}%</span>
-            <span className={styles.pctLabel}>
-              ЗІБРАНО_
-              <br />
-              {doneTotal} / {allTotal}
+          <div className={styles.packRow} aria-label={`Зібрано ${doneTotal} з ${allTotal} (${pct}%)`}>
+            <span aria-hidden="true" className={styles.packText}>
+              Пакування..
+            </span>
+            <span aria-hidden="true" className={styles.packTrack}>
+              <span className={styles.packFill} style={{ width: `${pct}%` }} />
+            </span>
+            <span aria-hidden="true" className={styles.packText}>
+              {doneTotal}/{allTotal}
             </span>
           </div>
           <div aria-hidden="true" className={styles.hearts}>
-            {Array.from({ length: 10 }, (_, i) => (
-              <span key={i} data-on={i < filled || undefined}>
-                ♥
-              </span>
-            ))}
+            {hearts(ratio)}
           </div>
-          <div aria-hidden="true" className={styles.ruler}>
-            <div className={styles.scale}>
-              <span className={styles.marker} style={{ left: `${pct}%` }} />
-            </div>
-            <div className={styles.scaleNums}>
-              <span>0</span>
-              <span>50</span>
-              <span>100</span>
-            </div>
-          </div>
+          <pre aria-hidden="true" className={styles.ruler}>
+            {ruler(ratio)}
+          </pre>
         </div>
 
         <div className={styles.statusCell}>
@@ -89,17 +82,7 @@ export function Terminal({ listId, list, actions }: Props) {
             <span className={styles.dimText}>РОЗДІЛІВ: {n}</span>
             <span className={styles.dimText}>ЗАЛИШИЛОСЬ: {left}</span>
           </div>
-          <svg className={styles.globe} width="120" height="120" viewBox="0 0 120 120" fill="none" aria-hidden="true">
-            <g className={styles.spin}>
-              <circle cx="60" cy="60" r="52" />
-              <ellipse cx="60" cy="60" rx="40" ry="52" />
-              <ellipse cx="60" cy="60" rx="24" ry="52" />
-              <ellipse cx="60" cy="60" rx="8" ry="52" />
-              <ellipse cx="60" cy="60" rx="52" ry="40" />
-              <ellipse cx="60" cy="60" rx="52" ry="24" />
-              <ellipse cx="60" cy="60" rx="52" ry="8" />
-            </g>
-          </svg>
+          <AsciiSphere className={styles.sphere} />
         </div>
       </div>
 
@@ -107,7 +90,7 @@ export function Terminal({ listId, list, actions }: Props) {
       <div className={styles.body}>
         <nav className={styles.nav} aria-label="Розділи">
           <div className={styles.navCount}>{n} РОЗДІЛІВ</div>
-          <div className={styles.navTitle}>СПИСОК</div>
+          <div className={styles.navTitle}>/* СПИСОК */</div>
           <div className={styles.tabs}>
             {secs.map((s, i) => (
               <button
@@ -117,7 +100,10 @@ export function Terminal({ listId, list, actions }: Props) {
                 aria-pressed={i === si && !showAll}
                 onClick={() => pick(i)}
               >
-                <span className={styles.tabLabel}>{upper(s.title)}</span>
+                <span className={styles.tabLabel}>
+                  <span aria-hidden="true">{i === si && !showAll ? '> ' : '  '}</span>
+                  {upper(s.title)}
+                </span>
                 <span className={styles.tabCount}>
                   {stats[i].d}/{stats[i].n}
                 </span>
@@ -132,7 +118,7 @@ export function Terminal({ listId, list, actions }: Props) {
             onClick={() => setView({ all: !view.all })}
           >
             <span>УСІ РОЗДІЛИ</span>
-            <span>{showAll ? '[■]' : '[ ]'}</span>
+            <span aria-hidden="true">{showAll ? '[x]' : '[ ]'}</span>
           </button>
         </nav>
 
@@ -146,17 +132,16 @@ export function Terminal({ listId, list, actions }: Props) {
       {/* controls */}
       <div className={styles.controls}>
         <button type="button" className={styles.ctl} aria-label="Попередній розділ" onClick={() => pick(si - 1)}>
-          <span className={styles.ctlRing}>◀</span>
+          <span aria-hidden="true" className={styles.ctlKey}>
+            (&lt;&lt;)
+          </span>
           <span aria-hidden="true" className={styles.ctlLabel}>
             НАЗАД
           </span>
         </button>
-        <div aria-hidden="true" className={styles.deco}>
-          <span className={styles.decoGrid} />
-          <span className={styles.decoBar} />
-          <span className={`${styles.decoBar} ${styles.decoBarR}`} />
-          <span className={`${styles.decoGrid} ${styles.decoGridR}`} />
-        </div>
+        <pre aria-hidden="true" className={styles.deco}>
+          {'\\\\\\:::|| >< ||:::///\n \\\\\\::|| >< ||::///\n  \\\\\\:|| >< ||:///'}
+        </pre>
         <button
           type="button"
           className={styles.ctl}
@@ -165,7 +150,9 @@ export function Terminal({ listId, list, actions }: Props) {
           disabled={doneTotal === 0}
           onClick={() => setConfirming((v) => !v)}
         >
-          <span className={styles.ctlRing}>↺</span>
+          <span aria-hidden="true" className={styles.ctlKey}>
+            (0%)
+          </span>
           <span aria-hidden="true" className={styles.ctlLabel}>
             СКИНУТИ
           </span>
@@ -177,13 +164,17 @@ export function Terminal({ listId, list, actions }: Props) {
           aria-label="Редагувати список"
           onClick={() => setEditing((v) => !v)}
         >
-          <span className={styles.ctlRing}>✎</span>
+          <span aria-hidden="true" className={styles.ctlKey}>
+            (~/)
+          </span>
           <span aria-hidden="true" className={styles.ctlLabel}>
             {editing ? 'ГОТОВО' : 'РЕДАГ.'}
           </span>
         </button>
         <button type="button" className={styles.ctl} aria-label="Наступний розділ" onClick={() => pick(si + 1)}>
-          <span className={styles.ctlRing}>▶</span>
+          <span aria-hidden="true" className={styles.ctlKey}>
+            (&gt;&gt;)
+          </span>
           <span aria-hidden="true" className={styles.ctlLabel}>
             ДАЛІ
           </span>
@@ -235,7 +226,7 @@ function Group({
       <div className={styles.groupHead}>
         {editing ? (
           <span className={styles.titleEdit}>
-            <span aria-hidden="true">//</span>
+            <span aria-hidden="true">C:\</span>
             <DebouncedInput
               className={`${styles.input} ${styles.titleInput}`}
               value={s.title}
@@ -243,9 +234,14 @@ function Group({
               aria-label="Назва розділу"
               enterKeyHint="done"
             />
+            <span aria-hidden="true">&gt;</span>
           </span>
         ) : (
-          <h3 className={styles.groupTitle}>// {upper(s.title)}</h3>
+          <h3 className={styles.groupTitle}>
+            <span aria-hidden="true">C:\</span>
+            {upper(s.title)}
+            <span aria-hidden="true">&gt;</span>
+          </h3>
         )}
         <span className={styles.groupCount}>
           {done}/{s.items.length}
@@ -281,15 +277,15 @@ function Row({ item, onToggle }: { item: Item; onToggle: () => void }) {
       aria-pressed={item.done}
       onClick={onToggle}
     >
-      <span aria-hidden="true" className={styles.slashes}>
-        //
+      <span aria-hidden="true" className={styles.box}>
+        {item.done ? '[x]' : '[ ]'}
       </span>
       <span className={styles.text}>
         {item.text}
         <span aria-hidden="true"> _</span>
       </span>
       <span aria-hidden="true" className={styles.mark}>
-        {item.done ? '[ OK ]' : '[ -- ]'}
+        {item.done ? 'OK' : '..'}
       </span>
     </button>
   );

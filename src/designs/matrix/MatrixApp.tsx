@@ -4,6 +4,7 @@ import { upper } from '../../data/text';
 import { DESIGN_LABELS, DESIGNS, type DesignProps } from '../types';
 import { Rain } from './Rain';
 import { Terminal } from './Terminal';
+import { BANNER } from './ascii';
 import './theme.css';
 import styles from './MatrixApp.module.css';
 
@@ -14,36 +15,81 @@ const MODES: { id: Mode; label: string }[] = [
 ];
 
 export default function MatrixApp(props: DesignProps) {
-  const { mode, setMode, design, setDesign } = props;
+  const { mode, setMode, design, setDesign, state } = props;
 
   useEffect(() => {
     document.body.style.background = '#030703';
     document.querySelector('meta[name="theme-color"]')?.setAttribute('content', '#030703');
   }, []);
 
+  // Overall progress of the lists on screen, for the bottom "suitcases" bar.
+  let overall: number | null = null;
+  if (state.status === 'ready') {
+    let d = 0;
+    let a = 0;
+    (mode === 'both' ? LIST_IDS : [mode]).forEach((id) =>
+      state.lists[id].sections.forEach((s) => {
+        a += s.items.length;
+        d += s.items.filter((x) => x.done).length;
+      }),
+    );
+    overall = a ? Math.round((d / a) * 100) : 0;
+  }
+
   return (
     <div className={`matrix ${styles.page}`} data-mode={mode}>
       <Rain />
+      {/* CRT: scanlines + vignette over everything */}
+      <div aria-hidden="true" className={styles.scanlines} />
+      <div aria-hidden="true" className={styles.vignette} />
 
       <div className={styles.container}>
-        <div className={styles.bar}>
-          <span>переїзд.exe</span>
-          <span aria-hidden="true" className={styles.barGlyph}>
-            ↺↻
+        <div className={styles.prompt}>
+          <span>C:\Users\duo&gt; Готові до переїзду?</span>
+          <span>
+            Y/N .. Y
+            <span className={styles.caret} aria-hidden="true">
+              _
+            </span>
           </span>
-          <span>v2.0 // 2026</span>
+        </div>
+        <div aria-hidden="true" className={styles.sub}>
+          <span>pereizd.exe // v2.0</span>
+          <span className={styles.subMid}>&lt;--[ :: ]--&gt;</span>
+          <span>2026</span>
         </div>
 
         <div className={styles.frame}>
-          <span aria-hidden="true" className={`${styles.corner} ${styles.tl}`} />
-          <span aria-hidden="true" className={`${styles.corner} ${styles.tr}`} />
-          <span aria-hidden="true" className={`${styles.corner} ${styles.bl}`} />
-          <span aria-hidden="true" className={`${styles.corner} ${styles.br}`} />
+          <span aria-hidden="true" className={`${styles.plus} ${styles.tl}`}>
+            +
+          </span>
+          <span aria-hidden="true" className={`${styles.plus} ${styles.tr}`}>
+            +
+          </span>
+          <span aria-hidden="true" className={`${styles.plus} ${styles.bl}`}>
+            +
+          </span>
+          <span aria-hidden="true" className={`${styles.plus} ${styles.br}`}>
+            +
+          </span>
+          <span aria-hidden="true" className={`${styles.tag} ${styles.tagL}`}>
+            [ sys::checklist ]
+          </span>
+          <span aria-hidden="true" className={`${styles.tag} ${styles.tagR}`}>
+            -=[ 0x7E9 ]=-
+          </span>
 
           <header className={styles.header}>
             <div className={styles.titleCell}>
-              <div className={styles.project}>ПРОЄКТ №001 // ПЕРЕЇЗД</div>
-              <h1 className={styles.h1}>ПЕРЕЇЗД</h1>
+              <div className={styles.project}>&gt;&gt; ПРОЄКТ #001 // ПЕРЕЇЗД</div>
+              <h1 className={styles.h1} aria-label="ПЕРЕЇЗД">
+                <pre aria-hidden="true" className={styles.banner}>
+                  {BANNER}
+                </pre>
+              </h1>
+              <div aria-hidden="true" className={styles.wave}>
+                {'~='.repeat(40)}
+              </div>
             </div>
             <div className={styles.pickCell}>
               <div className={styles.label}>/// ОБЕРИ КОРИСТУВАЧА</div>
@@ -71,7 +117,7 @@ export default function MatrixApp(props: DesignProps) {
                     aria-pressed={design === d}
                     onClick={() => setDesign(d)}
                   >
-                    {design === d ? '■' : '□'} {upper(DESIGN_LABELS[d])}
+                    {design === d ? '[x]' : '[ ]'} {upper(DESIGN_LABELS[d])}
                   </button>
                 ))}
               </div>
@@ -80,17 +126,23 @@ export default function MatrixApp(props: DesignProps) {
 
           <Content {...props} />
 
-          <div aria-hidden="true" className={styles.divider}>
-            <span />
-            <span className={styles.dividerText}>ВАЛІЗИ</span>
-            <span />
+          <div className={styles.loadBar} aria-label={overall === null ? undefined : `Зібрано разом: ${overall}%`}>
+            <span aria-hidden="true" className={styles.loadText}>
+              Завантаження валіз..
+            </span>
+            <span aria-hidden="true" className={styles.loadTrack}>
+              <span className={styles.loadFill} style={{ width: `${overall ?? 0}%` }} />
+            </span>
+            <span aria-hidden="true" className={styles.loadPct}>
+              {overall === null ? '..' : overall === 100 ? 'ГОТОВО' : `${overall}%`}
+            </span>
           </div>
         </div>
 
-        <div className={styles.bar}>
-          <span>@ми_удвох</span>
-          <span aria-hidden="true" className={styles.barGlyph}>
-            ↺↻
+        <div className={styles.foot}>
+          <span>@ми_удвох &lt;3</span>
+          <span aria-hidden="true" className={styles.footMid}>
+            &lt;--[ :: ]--&gt;
           </span>
           <span>// легкого переїзду _</span>
         </div>
@@ -103,7 +155,7 @@ function Content({ mode, state, actions, sync, writeError, clearWriteError }: De
   if (state.status === 'error') {
     return (
       <div className={styles.status} data-theme={mode} role="alert">
-        <p className={styles.statusLine}>&gt; ПОМИЛКА_</p>
+        <p className={styles.statusLine}>C:\&gt; ПОМИЛКА_</p>
         <p className={styles.statusText}>/* {state.message} */</p>
         <button type="button" className={styles.statusBtn} onClick={() => location.reload()}>
           [ СПРОБУВАТИ ЩЕ ]
@@ -116,7 +168,7 @@ function Content({ mode, state, actions, sync, writeError, clearWriteError }: De
     return (
       <div className={styles.status} data-theme={mode} role="status" aria-live="polite">
         <p className={styles.statusLine}>
-          &gt; {state.waitingForNetwork ? 'ЧЕКАЄМО НА МЕРЕЖУ' : 'ЗАВАНТАЖЕННЯ СПИСКУ…'}
+          C:\&gt; {state.waitingForNetwork ? 'ЧЕКАЄМО НА МЕРЕЖУ' : 'ЗАВАНТАЖЕННЯ СПИСКУ..'}
           <span aria-hidden="true" className={styles.caret}>
             _
           </span>
@@ -135,7 +187,7 @@ function Content({ mode, state, actions, sync, writeError, clearWriteError }: De
     <>
       {(sync.offline || sync.pending) && (
         <div className={styles.sync} data-theme={mode}>
-          {sync.offline ? '/// ОФЛАЙН — зміни синхронізуються, щойно з’явиться мережа' : '/// ЗБЕРЕЖЕННЯ…'}
+          {sync.offline ? '/// ОФЛАЙН — зміни синхронізуються, щойно з’явиться мережа' : '/// ЗБЕРЕЖЕННЯ..'}
           <span aria-hidden="true" className={styles.caret}>
             _
           </span>

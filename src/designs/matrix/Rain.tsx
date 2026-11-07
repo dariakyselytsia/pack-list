@@ -1,6 +1,6 @@
 import styles from './Rain.module.css';
 
-const GLYPHS = 'ﾊﾐﾋｰｳｼﾅﾓﾆｻﾜﾂｵﾘｱﾎﾃﾏｹﾒｴｶｷﾑﾕﾗｾﾈｽﾀﾇﾍ0123456789Z:=*+<>¦ЇЄҐ';
+const GLYPHS = '0123456789abcdefxyz{}[]<>()/\\|=+-*#$%&@!?;:~^_.';
 const COLS = 28;
 const LINES = 60; // per half; the column is doubled for a seamless loop
 
