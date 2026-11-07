@@ -1,0 +1,122 @@
+.row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 44px;
+  padding: 6px 10px 6px 10px;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  color: var(--ink);
+  transition: background-color 0.15s ease;
+}
+.row[data-sub] {
+  padding-left: 40px;
+}
+.row:hover {
+  background: rgba(255, 255, 255, 0.55);
+}
+.row:active {
+  background: rgba(255, 255, 255, 0.8);
+}
+.row[data-done] {
+  color: var(--done-ink);
+}
+
+.box {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  border: 2px solid var(--box);
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+.row[data-done] .box {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.text {
+  flex: 1;
+  font-size: 15px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+.row[data-done] .text {
+  text-decoration: line-through;
+}
+
+/* edit mode */
+.editRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 0;
+}
+.editRow[data-sub] {
+  padding-left: 30px;
+}
+
+.input {
+  flex: 1;
+  min-width: 0;
+  min-height: 44px;
+  padding: 0 12px;
+  border-radius: 10px;
+  border: 1px solid var(--box);
+  background: #ffffff;
+  color: var(--ink);
+  font-size: 16px; /* ≥16px stops iOS from zooming on focus */
+}
+@media (min-width: 720px) {
+  .input {
+    font-size: 15px;
+  }
+}
+
+.iconBtn {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.iconBtn:hover {
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.addRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 0 2px 10px;
+}
+
+.draft {
+  border-style: dashed;
+  border-color: var(--accent);
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.addBtn,
+.addBtn:hover {
+  background: var(--accent);
+  color: #ffffff;
+}
+.addBtn:disabled {
+  opacity: 0.45;
+  cursor: default;
+}

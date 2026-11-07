@@ -1,0 +1,51 @@
+.group {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid var(--page-line);
+}
+
+.btn {
+  min-height: 44px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--page-ink);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.btn:hover:not([aria-pressed='true']) {
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.btn[aria-pressed='true'] {
+  color: #ffffff;
+}
+.btn[aria-pressed='true'][data-mode='her'] {
+  background: #c46a85;
+}
+.btn[aria-pressed='true'][data-mode='his'] {
+  background: #4f7fb8;
+}
+.btn[aria-pressed='true'][data-mode='both'] {
+  background: #6b5a8a;
+}
+
+@media (max-width: 560px) {
+  .group {
+    width: 100%;
+  }
+  .btn {
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 4px 8px;
+    font-size: 13px;
+  }
+}

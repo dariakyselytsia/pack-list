@@ -1,0 +1,23 @@
+.bow {
+  display: block;
+  flex: none;
+}
+
+.petal {
+  fill: var(--bow-fill);
+  stroke: var(--bow);
+  stroke-width: 2.5;
+  stroke-linejoin: round;
+}
+
+.tail {
+  stroke: var(--bow);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+
+.knot {
+  fill: var(--knot);
+  stroke: var(--bow);
+  stroke-width: 2.5;
+}
